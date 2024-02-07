@@ -10,7 +10,7 @@ def input_from_file():
     print(f'path: {path}')
 
     source_file = "soal.txt"
-    file_name = os.path.join(path, 'test' ,source_file)
+    file_name = os.path.join(path, '../' ,source_file)
 
     # Read file
     with open(file_name, "r") as file:
@@ -26,33 +26,40 @@ def input_from_file():
 
         n_sequences = int(file.readline().strip())
 
-        # Data: [[[sequence1], reward1], [[sequence2], reward2], ...]
-        sequences_and_reward = []
-        sequence = []
-        for i in range(n_sequences):
-            sequence = [file.readline().strip().split()]
-            sequence.append(int(file.readline().strip()))
-            sequences_and_reward.append(sequence)
-            # print(f'len matrix: {len(matrix)}')
-        
-        # # Data: 2 array: 1 array for sequence, 1 array for reward
+        # # Data: [[[sequence1], reward1], [[sequence2], reward2], ...]
         # sequences_and_reward = []
-        # sequence_list = []
-        # reward_list = []
+        # sequence = []
         # for i in range(n_sequences):
-        #     sequence = file.readline().strip().split()
-        #     reward_list.append(int(file.readline().strip()))
+        #     sequence = [file.readline().strip().split()]
+        #     sequence.append(int(file.readline().strip()))
         #     sequences_and_reward.append(sequence)
         #     # print(f'len matrix: {len(matrix)}')
+        
+        # Data: 2 array: 1 array for sequence, 1 array for reward
+        sequence_list = []
+        reward_list = []
+        for i in range(n_sequences):
+            sequence = file.readline().strip().split()
+            reward_list.append(int(file.readline().strip()))
+            sequence_list.append(sequence)
+            # print(f'len matrix: {len(matrix)}')
+    
+    # return matrix, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
 
     # Test, del
-    print(f'sequences: {sequence}')
-    print(f'sequences_and_reward: {sequences_and_reward}')
+    # print(f'sequences: {sequence}')
+    # print(f'sequences_list: {sequences_and_reward}')
     # print(f'reward_list: {reward_list}')
-    print(f'seq reward 1: {sequences_and_reward[0]}')
-    print(f'seq 1 tokens: {sequences_and_reward[0][0]}')
-    print(f'seq 1 tokens 1: {sequences_and_reward[0][0][0]}')
-    print(f'seq 1 reward: {sequences_and_reward[0][1]}')
+    # print(f'seq reward 1: {sequences_and_reward[0]}')
+    # print(f'seq 1 tokens: {sequences_and_reward[0][0]}')
+    # print(f'seq 1 tokens 1: {sequences_and_reward[0][0][0]}')
+    # print(f'seq 1 reward: {sequences_and_reward[0][1]}')
+    print(f'sequences: {sequence}')
+    print(f'sequences_list: {sequence_list}')
+    print(f'reward_list: {reward_list}')
+    print(f'seq 1 tokens: {sequence_list[0]}')
+    print(f'seq 1 tokens 1: {sequence_list[0][0]}')
+    print(f'seq 1 reward: {reward_list[0]}')
     print(f'n_sequences: {n_sequences}')
     print(f'matrix: {matrix}') 
     print("Matrix:")
@@ -63,6 +70,8 @@ def input_from_file():
     print(f'matrix_size: {matrix_size}')
     print(f'matrix_width: {matrix_width}')
     print(f'matrix_height: {matrix_height}')
+
+    return matrix, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
 
 
 # --------------- Input from CLI
@@ -86,6 +95,7 @@ def input_from_cli():
             random_token = random.choice(token_arr) 
             matrix[i][j] = random_token
 
+    return matrix, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size
 
     # test 
     print()
@@ -110,4 +120,5 @@ def print_matrix(matrix):
             print(f'{matrix[i][j]}', end=' ')
         print()
 
-input_from_cli()
+# input_from_cli()
+# input_from_file()
