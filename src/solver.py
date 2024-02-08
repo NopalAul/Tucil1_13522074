@@ -33,7 +33,7 @@ if input_option == 'f':
 
 elif input_option == 'c':
     data = input_from_cli()
-    print(data) # del
+    # print(data) # del
     matrix = data[0]
     token_arr = data[1]
     matrix_width = data[2]

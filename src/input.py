@@ -76,7 +76,6 @@ def input_from_cli():
 
     # Matrix generator
     matrix = [['' for i in range(matrix_height)] for j in range(matrix_width)]
-    print('\nMatrix:')
     for i in range(matrix_width):
         for j in range(matrix_height):
             random_token = random.choice(token_arr) 
