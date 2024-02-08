@@ -1,12 +1,11 @@
-# Main solver file
-
+# ------- File solver.py: Main program to resolve the problem using brute force algorithm
 from time import process_time
-from readFile import *
+from input import *
 
-# Timer
+# TIMER
 start_time = process_time()
 
-# Input options
+# INPUT OPTION
 input_option = input("Input from file (f) or CLI (c): ")
 if input_option == 'f':
     data = input_from_file()
@@ -20,6 +19,7 @@ if input_option == 'f':
     sequence_list = data[6]
     reward_list = data[7]
 
+    # # test
     # print(f'matrix: {matrix}')
     # print("Matrix:")
     # print_matrix(matrix)
@@ -47,39 +47,42 @@ elif input_option == 'c':
     sequence_list = data[10]
     reward_list = data[11]
 
-    print(f'matrix: {matrix}')
-    print("Matrix:")
-    print_matrix(matrix)
-    print(f'token_arr: {token_arr}')
-    print(f'matrix_width: {matrix_width}')
-    print(f'matrix_height: {matrix_height}')
-    print(f'n_token: {n_token}')
-    print(f'token: {token}')
-    print(f'buffer_size: {buffer_size}')
-    print(f'matrix_size: {matrix_size}')
-    print(f'n_sequences: {n_sequences}')
-    print(f'max_sequence_size: {max_sequence_size}')
-    print(f'sequence_list: {sequence_list}')
-    print(f'reward_list: {reward_list}')
+    # # test
+    # print(f'matrix: {matrix}')
+    # print("Matrix:")
+    # print_matrix(matrix)
+    # print(f'token_arr: {token_arr}')
+    # print(f'matrix_width: {matrix_width}')
+    # print(f'matrix_height: {matrix_height}')
+    # print(f'n_token: {n_token}')
+    # print(f'token: {token}')
+    # print(f'buffer_size: {buffer_size}')
+    # print(f'matrix_size: {matrix_size}')
+    # print(f'n_sequences: {n_sequences}')
+    # print(f'max_sequence_size: {max_sequence_size}')
+    # print(f'sequence_list: {sequence_list}')
+    # print(f'reward_list: {reward_list}')
 
+# BRUTE FORCE ALGORITHM
 
+# Inisialisasi variabel untuk menyimpan koordinat yang sudah digunakan/dikunjungi
 used_coordinates = set()
 
+# Fungsi untuk mengecek apakah suatu koordinat valid untuk digunakan (gerakan enumerasi kombinasi adalah valid)
 def is_valid_move(row, col, direction):
     if direction == 'horizontal':
         return col < len(matrix[0]) and (row, col) not in used_coordinates
     elif direction == 'vertical':
         return row < len(matrix) and (row, col) not in used_coordinates
 
-
+# Fungsi untuk mengenumerasi kombinasi dari matrix token
+# hasil enumerasi berupa kemungkinan sequence dan koordinatnya
 sequences_result = []
 coordinate_result = []
 def enumerate_combinations(row, col, direction, buffer_size, combination, combination_coord):
     if buffer_size == 0:
         coordinate_result.append(combination_coord)
         return sequences_result.append(combination)
-        # print(combination)
-        # return
 
     if direction == 'horizontal':
         for i in range(len(matrix[0])):
@@ -160,7 +163,7 @@ print(f'coordinate: {coordinate_result_final}')
 stop_time = process_time()
 timer = (stop_time - start_time)*1000
 
-# Outputing
+# OUTPUTING SOLUTION
 print("Hasil: ")
 if(max_reward == 0):
     print(f'Reward maksimal: {max_reward}')
@@ -171,3 +174,16 @@ else:
     print(f'Sequences: {sequences_result_final}')
     print(f'Coordinate: {coordinate_result_final}')
     print(f'Waktu eksekuasi: {timer} ms')
+
+# OUTPUT SOLUTION TO FILE
+choice = input("Apakah anda ingin menyimpan solusi ke dalam file? (y/n): ")
+
+if choice == 'y':
+    file_name = str(input("Masukkan nama file (contoh.txt): "))
+    with open('test/'+ file_name, 'w') as file:
+        file.write(f'{max_reward}\n')
+        file.write(f'{sequences_result_final}\n')
+        for coord in coordinate_result_final:
+            file.write(f'{coord}\n')
+        file.write(f'\n{timer} ms\n')
+    print(f'Solusi berhasil disimpan ke dalam file {file_name}')

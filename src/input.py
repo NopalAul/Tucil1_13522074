@@ -1,4 +1,4 @@
-# Input reader file
+# File input.py: Handling input from file or CLI
 import os
 from pathlib import Path
 import random
