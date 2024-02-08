@@ -79,6 +79,7 @@ def is_valid_move(row, col, direction):
 sequences_result = []
 coordinate_result = []
 def enumerate_combinations(row, col, direction, buffer_size, combination, combination_coord):
+    # Sudah mencukupi buffer size, tambahkan kombinasi dan koordinatnya ke dalam list hasil
     if buffer_size == 0:
         coordinate_result.append(combination_coord)
         return sequences_result.append(combination)
