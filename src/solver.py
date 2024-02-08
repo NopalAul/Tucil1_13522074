@@ -9,7 +9,7 @@ start_time = process_time()
 input_option = input("Input from file (f) or CLI (c): ")
 if input_option == 'f':
     data = input_from_file()
-    print(data) # del 
+    # print(data) # del 
     matrix = data[0]
     matrix_width = data[1]
     matrix_height = data[2]
@@ -64,7 +64,6 @@ elif input_option == 'c':
     # print(f'reward_list: {reward_list}')
 
 # BRUTE FORCE ALGORITHM
-
 # Inisialisasi variabel untuk menyimpan koordinat yang sudah digunakan/dikunjungi
 used_coordinates = set()
 
@@ -84,26 +83,27 @@ def enumerate_combinations(row, col, direction, buffer_size, combination, combin
         coordinate_result.append(combination_coord)
         return sequences_result.append(combination)
 
-    if direction == 'horizontal':
+    # Enumerasi tiap sel matrix secara berarah sesuai aturan, horizontal lalu vertikal
+    if direction == 'horizontal':       # arah enumerasi horizontal
         for i in range(len(matrix[0])):
             if is_valid_move(row, i, direction):
                 used_coordinates.add((row, i))
-                enumerate_combinations(row, i, 'vertical', buffer_size - 1, combination + [matrix[row][i]], combination_coord + [(row, i)])
+                enumerate_combinations(row, i, 'vertical', buffer_size - 1, combination + [matrix[row][i]], combination_coord + [(row, i)])     # setiap selesai menggunakan 1 koordinat, ubah arah enumerasi, kurangi buffer size, tambahkan kombinasi dan koordinatnya
                 used_coordinates.remove((row, i))
-    elif direction == 'vertical':
+    elif direction == 'vertical':       # arah enumerasi vertikal
         for i in range(len(matrix)):
             if is_valid_move(i, col, direction):
                 used_coordinates.add((i, col))
-                enumerate_combinations(i, col, 'horizontal', buffer_size - 1, combination + [matrix[i][col]], combination_coord + [(i, col)])
+                enumerate_combinations(i, col, 'horizontal', buffer_size - 1, combination + [matrix[i][col]], combination_coord + [(i, col)])   # setiap selesai menggunakan 1 koordinat, ubah arah enumerasi, kurangi buffer size, tambahkan kombinasi dan koordinatnya 
                 used_coordinates.remove((i, col))
 
-# Start enumerating combinations from each cell in the first row
+# Melakukan enumerasi kombinasi dari setiap sel dimulai dari row pertama
 for i in range(len(matrix[0])):
-    used_coordinates.clear()
-    used_coordinates.add((0, i))  # Mark the starting cell as used
-    enumerate_combinations(0, i, 'vertical', buffer_size - 1, [matrix[0][i]], [(0, i)])
+    used_coordinates.clear()        # membersihkan set koordinat yang sudah digunakan
+    used_coordinates.add((0, i))    # menandai koordinat awal sebagai koordinat yang sudah digunakan
+    enumerate_combinations(0, i, 'vertical', buffer_size - 1, [matrix[0][i]], [(0, i)])   # memulai enumerasi kombinasi dari koordinat di row pertama
 
-# Update coordinate result (increment by 1)
+# Update hasil koordinat (dari 0-based ke 1-based)
 coordinate_result_update = []
 for sub_list in coordinate_result:
     updated_sub_list = []
@@ -112,18 +112,17 @@ for sub_list in coordinate_result:
         updated_sub_list.append(updated_tuple)
     coordinate_result_update.append(updated_sub_list)
 
+# del
 # print(coordinate_result_update)
-
 # # File Output
 # def write_sequences_to_file(sequences, file_name):
 #     with open(file_name, 'w') as file:
 #         for sequence in sequences:
 #             file.write(str(sequence) + '\n')
-
 # write_sequences_to_file(sequences_result, 'output.txt') # del
 # write_sequences_to_file(coordinate_result, 'outputCoord.txt') # del
 
-# Rewarding mechanism
+# Fungsi untuk mekanisme rewarding
 def rewarding(sequences_result, sequences_list, reward_list):
     reward_candidate = []
     for array_result in sequences_result:
@@ -131,52 +130,53 @@ def rewarding(sequences_result, sequences_list, reward_list):
         for index in range(len(sequences_list)):
             array_list = sequences_list[index]
             reward = reward_list[index]
-            # print(f'array result: {array_result}')
-            # print(f'array list: {array_list}')
 
-            # Array to string
+            # ubah array menjadi string agar dapat dicek apakah array_list ada di array_result
             array_result_str = ' '.join(array_result)
             array_list_str = ' '.join(array_list)
-
             if array_list_str in array_result_str:
                 # print('ada')
-                sum_reward += reward
+                sum_reward += reward        # jika ada, jumlahkan rewardnya
 
-        reward_candidate.append(sum_reward)
-                # reward += reward_list[sequences_list.index(array_list)]
-    
-    # print(f'Reward candidate: {reward_candidate}')
+        # masukkan jumlah reward setiap sequence ke dalam list (reward untuk setiap kombinasi sequence)
+        reward_candidate.append(sum_reward) 
     return reward_candidate
 
-# Final solution
+# FINAL SOLUTION
+# cari index reward maksimal dari list reward_candidate
 rewarding(sequences_result, sequence_list, reward_list)
-index_reward = rewarding(sequences_result, sequence_list, reward_list).index(max(rewarding(sequences_result, sequence_list, reward_list)))
+index_reward = rewarding(sequences_result, sequence_list, reward_list).index(max(rewarding(sequences_result, sequence_list, reward_list)))  
 max_reward = max(rewarding(sequences_result, sequence_list, reward_list))
+
+# hasil solusi
 sequences_result_final = ' '.join(sequences_result[index_reward])
 coordinate_result_final = coordinate_result_update[index_reward]
 
-print(f'indeks reward: {index_reward}')
-print(f'reward: {max_reward}')
-print(f'sequences: {sequences_result_final}')
-print(f'coordinate: {coordinate_result_final}')
+# # test
+# print(f'indeks reward: {index_reward}')
+# print(f'reward: {max_reward}')
+# print(f'sequences: {sequences_result_final}')
+# print(f'coordinate: {coordinate_result_final}')
 
 stop_time = process_time()
 timer = (stop_time - start_time)*1000
 
 # OUTPUTING SOLUTION
-print("Hasil: ")
+print("\nHASIL: ")
 if(max_reward == 0):
     print(f'Reward maksimal: {max_reward}')
     print(f'Waktu eksekusi: {timer} ms')
 
 else:
     print(f'Reward maksimal: {max_reward}')
-    print(f'Sequences: {sequences_result_final}')
-    print(f'Coordinate: {coordinate_result_final}')
-    print(f'Waktu eksekuasi: {timer} ms')
+    print(f'Sekuens: {sequences_result_final}')
+    print('Koordinat: ')
+    for coord in coordinate_result_final:
+        print(f'{coord}')
+    print(f'\nWaktu eksekusi: {timer} ms')
 
 # OUTPUT SOLUTION TO FILE
-choice = input("Apakah anda ingin menyimpan solusi ke dalam file? (y/n): ")
+choice = input("\nApakah anda ingin menyimpan solusi ke dalam file? (y/n): ")
 
 if choice == 'y':
     file_name = str(input("Masukkan nama file (contoh.txt): "))
@@ -186,4 +186,4 @@ if choice == 'y':
         for coord in coordinate_result_final:
             file.write(f'{coord}\n')
         file.write(f'\n{timer} ms\n')
-    print(f'Solusi berhasil disimpan ke dalam file {file_name}')
+    print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
