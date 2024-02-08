@@ -59,5 +59,6 @@ def write_to_file(sequences, file_name):
         for sequence in sequences:
             file.write(str(sequence) + '\n')
 
+# File Output
 write_to_file(sequences_result, 'output.txt')
 write_to_file(coordinate_result, 'outputCoord.txt')

@@ -44,16 +44,6 @@ def input_from_file():
             sequence_list.append(sequence)
             # print(f'len matrix: {len(matrix)}')
     
-    # return matrix, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
-
-    # Test, del
-    # print(f'sequences: {sequence}')
-    # print(f'sequences_list: {sequences_and_reward}')
-    # print(f'reward_list: {reward_list}')
-    # print(f'seq reward 1: {sequences_and_reward[0]}')
-    # print(f'seq 1 tokens: {sequences_and_reward[0][0]}')
-    # print(f'seq 1 tokens 1: {sequences_and_reward[0][0][0]}')
-    # print(f'seq 1 reward: {sequences_and_reward[0][1]}')
     print(f'sequences: {sequence}')
     print(f'sequences_list: {sequence_list}')
     print(f'reward_list: {reward_list}')
@@ -95,7 +85,17 @@ def input_from_cli():
             random_token = random.choice(token_arr) 
             matrix[i][j] = random_token
 
-    return matrix, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size
+    sequence_list = []
+    reward_list = []
+    for i in range(n_sequences):
+        sequence = []
+        for j in range(random.randint(2, max_sequence_size)):
+            random_token = random.choice(token_arr)
+            sequence.append(random_token)
+        sequence_list.append(sequence)
+        reward_list.append(random.randint(10, 100))
+
+    return matrix, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size, sequence_list, reward_list
 
     # test 
     print()
@@ -111,6 +111,8 @@ def input_from_cli():
     print(f'matrix_size: {matrix_size}')
     print (f'n_sequences: {n_sequences}')
     print(f'max_sequence_size: {max_sequence_size}')
+    print(f'sequence_list: {sequence_list}')
+    print(f'reward_list: {reward_list}')
 
 
 # print matrix

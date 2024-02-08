@@ -3,10 +3,6 @@
 from time import process_time
 from readFile import *
 
-# cek semua kombinasi
-# simpan i j token yang sudah dikunjungi
-# cek reward dari koordinat di matrix
-
 # Timer
 start_time = process_time()
 
@@ -48,19 +44,23 @@ elif input_option == 'c':
     matrix_size = data[7]
     n_sequences = data[8]
     max_sequence_size = data[9]
+    sequence_list = data[10]
+    reward_list = data[11]
 
-    # print(f'matrix: {matrix}')
-    # print("Matrix:")
-    # print_matrix(matrix)
-    # print(f'token_arr: {token_arr}')
-    # print(f'matrix_width: {matrix_width}')
-    # print(f'matrix_height: {matrix_height}')
-    # print(f'n_token: {n_token}')
-    # print(f'token: {token}')
-    # print(f'buffer_size: {buffer_size}')
-    # print(f'matrix_size: {matrix_size}')
-    # print(f'n_sequences: {n_sequences}')
-    # print(f'max_sequence_size: {max_sequence_size}')
+    print(f'matrix: {matrix}')
+    print("Matrix:")
+    print_matrix(matrix)
+    print(f'token_arr: {token_arr}')
+    print(f'matrix_width: {matrix_width}')
+    print(f'matrix_height: {matrix_height}')
+    print(f'n_token: {n_token}')
+    print(f'token: {token}')
+    print(f'buffer_size: {buffer_size}')
+    print(f'matrix_size: {matrix_size}')
+    print(f'n_sequences: {n_sequences}')
+    print(f'max_sequence_size: {max_sequence_size}')
+    print(f'sequence_list: {sequence_list}')
+    print(f'reward_list: {reward_list}')
 
 
 used_coordinates = set()
@@ -111,14 +111,14 @@ for sub_list in coordinate_result:
 
 # print(coordinate_result_update)
 
-# File Output
-def write_to_file(sequences, file_name):
-    with open(file_name, 'w') as file:
-        for sequence in sequences:
-            file.write(str(sequence) + '\n')
+# # File Output
+# def write_sequences_to_file(sequences, file_name):
+#     with open(file_name, 'w') as file:
+#         for sequence in sequences:
+#             file.write(str(sequence) + '\n')
 
-# write_to_file(sequences_result, 'output.txt') # del
-# write_to_file(coordinate_result, 'outputCoord.txt') # del
+# write_sequences_to_file(sequences_result, 'output.txt') # del
+# write_sequences_to_file(coordinate_result, 'outputCoord.txt') # del
 
 # Rewarding mechanism
 def rewarding(sequences_result, sequences_list, reward_list):
@@ -136,20 +136,20 @@ def rewarding(sequences_result, sequences_list, reward_list):
             array_list_str = ' '.join(array_list)
 
             if array_list_str in array_result_str:
-                print('ada')
+                # print('ada')
                 sum_reward += reward
 
         reward_candidate.append(sum_reward)
                 # reward += reward_list[sequences_list.index(array_list)]
     
-    print(f'Reward candidate: {reward_candidate}')
+    # print(f'Reward candidate: {reward_candidate}')
     return reward_candidate
 
 # Final solution
 rewarding(sequences_result, sequence_list, reward_list)
 index_reward = rewarding(sequences_result, sequence_list, reward_list).index(max(rewarding(sequences_result, sequence_list, reward_list)))
 max_reward = max(rewarding(sequences_result, sequence_list, reward_list))
-sequences_result_final = sequences_result[index_reward]
+sequences_result_final = ' '.join(sequences_result[index_reward])
 coordinate_result_final = coordinate_result_update[index_reward]
 
 print(f'indeks reward: {index_reward}')
@@ -157,9 +157,17 @@ print(f'reward: {max_reward}')
 print(f'sequences: {sequences_result_final}')
 print(f'coordinate: {coordinate_result_final}')
 
-# Outputing
-
-
-
 stop_time = process_time()
-print(f'Time: {(stop_time - start_time)*1000} ms')
+timer = (stop_time - start_time)*1000
+
+# Outputing
+print("Hasil: ")
+if(max_reward == 0):
+    print(f'Reward maksimal: {max_reward}')
+    print(f'Waktu eksekusi: {timer} ms')
+
+else:
+    print(f'Reward maksimal: {max_reward}')
+    print(f'Sequences: {sequences_result_final}')
+    print(f'Coordinate: {coordinate_result_final}')
+    print(f'Waktu eksekuasi: {timer} ms')
