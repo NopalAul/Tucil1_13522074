@@ -166,7 +166,9 @@ timer = (stop_time - start_time)*1000
 print("\nHASIL: ")
 if(max_reward == 0):
     print(f'Reward maksimal: {max_reward}')
-    print(f'Waktu eksekusi: {timer} ms')
+    print('Sekuens: - ')
+    print('Koordinat: - ')
+    print(f'\nWaktu eksekusi: {timer} ms')
 
 else:
     print(f'Reward maksimal: {max_reward}')
