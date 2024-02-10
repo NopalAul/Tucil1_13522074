@@ -5,17 +5,45 @@ from time import process_time
 # import sys
 # sys.path.append('../')
 # from solver import solve
-
+# ############  COLOR : #1C2A41
 asset_path = os.path.abspath('src/GUI/assets')
-# print(asset_path)
+
 ################### ALGORITHM FUNCTION ###################
 
-# print matrix
-def print_matrix():
-    for i in range(len(matrix_arr)):
-        for j in range(len(matrix_arr[0])):
-            print(f'{matrix_arr[i][j]}', end=' ')
-        print()
+
+def draw_matrix_with_lines(matrix, coordinates):
+    canvas = Canvas(page2, width=556, height=390, bg='#E5FDFF', border=0)
+    # canvas = Canvas(page3, width=300, height=300)
+    canvas.place(x=360, y=170)
+
+    cell_width = 50
+    cell_height = 50
+
+    # Draw matrix
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            x0 = j * cell_width
+            y0 = i * cell_height
+            x1 = x0 + cell_width
+            y1 = y0 + cell_height
+            if (i, j) in coordinates:
+                if (i, j) == coordinates[-1]:
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="lightblue")
+                elif (i, j) == coordinates[0]:
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="lightgreen")
+                else:
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="yellow")
+            else:
+                canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="white")
+            canvas.create_text((x0 + x1) // 2, (y0 + y1) // 2, text=matrix[i][j])
+
+        # Draw lines
+        for i in range(len(coordinates) - 1):
+            x0 = coordinates[i][1] * cell_width + cell_width // 2
+            y0 = coordinates[i][0] * cell_height + cell_height // 2
+            x1 = coordinates[i+1][1] * cell_width + cell_width // 2
+            y1 = coordinates[i+1][0] * cell_height + cell_height // 2
+            canvas.create_line(x0, y0, x1, y1, fill="red", width=2)
 
 
 def open_file_dialog():
@@ -73,6 +101,12 @@ def open_file_dialog():
         print(f'matrix_width: {matrix_width}')
         print(f'matrix_height: {matrix_height}')
     return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
+
+def print_matrix():
+    for i in range(len(matrix_arr)):
+        for j in range(len(matrix_arr[0])):
+            print(f'{matrix_arr[i][j]}', end=' ')
+        print()
 
 def solve():
     # BRUTE FORCE ALGORITHM
@@ -149,7 +183,7 @@ def solve():
                 array_result_str = ' '.join(array_result)
                 array_list_str = ' '.join(array_list)
                 if array_list_str in array_result_str:
-                    # print('ada')
+                    print()
                     sum_reward += reward        # jika ada, jumlahkan rewardnya
 
             # masukkan jumlah reward setiap sequence ke dalam list (reward untuk setiap kombinasi sequence)
@@ -177,7 +211,7 @@ def solve():
     # print(f'coordinate: {coordinate_result_final}')
 
     stop_time = process_time()
-    timer = (stop_time - start_time)*1000
+    timer = round((stop_time - start_time)*1000, 2)
 
     # OUTPUTING SOLUTION
     print("\nHASIL: ")
@@ -194,6 +228,11 @@ def solve():
         for coord in coordinate_result_final:
             print(f'{coord}')
         print(f'\nWaktu eksekusi: {timer} ms')
+    
+    draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward])
+    max_reward_result.config(text=max_reward)
+    sequence_result.config(text=sequences_result_final)
+    time_result.config(text=f'{timer} ms')
 
     # OUTPUT SOLUTION TO FILE
     choice = input("\nApakah anda ingin menyimpan solusi ke dalam file? (y/n): ")
@@ -208,8 +247,16 @@ def solve():
             file.write(f'\n{timer} ms\n')
         print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
 
+def save_file():
+    file_name = str(input("Masukkan nama file (contoh.txt): "))
+    with open('test/'+ file_name, 'w') as file:
+        file.write(f'{max_reward}\n')
+        file.write(f'{sequences_result_final}\n')
+        for coord in coordinate_result_final:
+            file.write(f'{coord}\n')
+        file.write(f'\n{timer} ms\n')
+    print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
 
-    
 
 
 
@@ -302,15 +349,20 @@ Label(page2, image=matrix_container, bg='#0B0F28').place(x=350, y=160)
 max_reward_img = PhotoImage(file=asset_path+'/maxreward.png')
 Label(page2, image=max_reward_img, bg='#0B0F28').place(x=310, y=590)
 max_reward_text = Label(page2, text='MAXIMUM REWARD :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=335, y=600)
+max_reward_result = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+max_reward_result.place(x=407, y=635)
 
 sequence_img = PhotoImage(file=asset_path+'/sequence.png')
 Label(page2, image=sequence_img, bg='#0B0F28').place(x=538, y=590)
 sequence_text = Label(page2, text='SEQUENCE :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=633, y=600)
+sequence_result = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+sequence_result.place(x=563, y=635)
 
 time_img = PhotoImage(file=asset_path+'/time.png')
 Label(page2, image=time_img, bg='#0B0F28').place(x=826, y=590)
 time_text = Label(page2, text='TIME :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=860, y=600)
-
+time_result = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+time_result.place(x=844, y=635)
 
 
 
