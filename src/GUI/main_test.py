@@ -49,18 +49,22 @@ chooseTxt = Label(page1, text='CHOOSE YOUR INPUT :', font=('Microsoft YaHei UI',
 
 # Button
 txt_btn_img = PhotoImage(file='assets/txtbtn.png')
-Label(page1, image=txt_btn_img, bg='#0B0F28').pack(pady=(0, 0))
+# Label(page1, image=txt_btn_img, bg='#0B0F28').pack(pady=(0, 0))
 
-txt_btn = Button(page1, text='T X T  F I L E', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28', relief=FLAT, command=lambda: show_frame(page2)).place(relx=0.5, rely=0.6, y=-1, anchor=CENTER)
+txt_btn = Button(page1, image=txt_btn_img, bg='#0B0F28', relief=FLAT, command=lambda: show_frame(page2)).place(relx=0.5, rely=0.6, y=-10, anchor=CENTER)
 
 auto_btn_img = PhotoImage(file='assets/autobtn.png')
-Label(page1, image=auto_btn_img, bg='#0B0F28').pack(pady=(0, 0))
-auto_btn = Button(page1, text='A U T O M A T I C', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28', relief=FLAT, command=lambda: show_frame(page3)).place(relx=0.5, rely=0.7, y=6, anchor=CENTER)
+# Label(page1, image=auto_btn_img, bg='#0B0F28').pack(pady=(0, 0))
+auto_btn = Button(page1, image=auto_btn_img, bg='#0B0F28', relief=FLAT, command=lambda: show_frame(page3)).place(relx=0.5, rely=0.7, y=6, anchor=CENTER)
 
 
 ################### PAGE 2: TXT INPUT ###################
 # Background
 page2.configure(bg='#0B0F28')
+
+# Back button
+back_btn_img2 = PhotoImage(file='assets/back.png')
+back_btn2 = Button(page2, image=back_btn_img2, bg='#0B0F28', relief=FLAT, command=lambda: show_frame(page1)).place(x=82, y=62)
 
 # Title
 img_title_page2 = PhotoImage(file='assets/titletxt.png')
@@ -101,11 +105,48 @@ sequence_text = Label(page2, text='SEQUENCE :', font=('Microsoft YaHei UI',11), 
 # Background
 page3.configure(bg='#0B0F28')
 
+# Back button
+back_btn_img = PhotoImage(file='assets/back.png')
+back_btn = Button(page3, image=back_btn_img, bg='#0B0F28', relief=FLAT, command=lambda: show_frame(page1)).place(x=82, y=62)
+
 # Title
 img_title_page3 = PhotoImage(file='assets/autoinput.png')
 Label(page3, image=img_title_page3, bg='#0B0F28').pack(pady=(55, 0))
 
-#
+# Token
+token_amount_img = PhotoImage(file='assets/inputamt.png')
+Label(page3, image=token_amount_img, bg='#0B0F28').place(x=59.8, y=171)
+token_amount_text = Label(page3, text='TOKEN AMOUNT:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=85, y=181)
+token_amount_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='#95EFFA').place(x=252, y=181)
+
+token_img = PhotoImage(file='assets/tokeninput.png')
+Label(page3, image=token_img, bg='#0B0F28').place(x=59.8, y=231)
+token_text = Label(page3, text='TOKEN:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=140, y=241)
+token_input = Entry(page3, width=20, border=0, font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='#95EFFA').place(x=80, y=281)
+
+# Buffer size
+buffer_size_img = PhotoImage(file='assets/inputamt.png')
+Label(page3, image=buffer_size_img, bg='#0B0F28').place(x=59.8, y=333)
+buffer_size_text = Label(page3, text='BUFFER SIZE:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=100, y=343)
+buffer_size_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='#95EFFA').place(x=252, y=345)
+
+# Matrix size
+matrix_size_img = PhotoImage(file='assets/inputamt.png')
+Label(page3, image=matrix_size_img, bg='#0B0F28').place(x=59.8, y=393)
+matrix_size_text = Label(page3, text='MATRIX SIZE:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=100, y=403)
+matrix_size_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='#95EFFA').place(x=252, y=406)
+
+# Sequence amount
+sequence_amount_img = PhotoImage(file='assets/inputamt.png')
+Label(page3, image=sequence_amount_img, bg='#0B0F28').place(x=59.8, y=454)
+sequence_amount_text = Label(page3, text='SEQUENCE AMT:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=86, y=464)
+sequence_amount_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='#95EFFA').place(x=252, y=466)
+
+# Max sequence
+max_sequence_img = PhotoImage(file='assets/inputamt.png')
+Label(page3, image=max_sequence_img, bg='#0B0F28').place(x=59.8, y=515)
+max_sequence_text = Label(page3, text='MAX SEQUENCE:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=86, y=525)
+max_sequence_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='#95EFFA').place(x=252, y=527)
 
 # Matrix
 matrix_text3 = Label(page3, text='M A T R I X :', font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='white').place(x=350, y=130)
