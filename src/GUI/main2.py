@@ -29,14 +29,14 @@ def draw_matrix_with_lines(matrix, coordinates, page):
             y1 = y0 + cell_height
             if (i, j) in coordinates:
                 if (i, j) == coordinates[-1]:
-                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="lightblue")
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#632828")
                 elif (i, j) == coordinates[0]:
-                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="lightgreen")
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#3B6328")
                 else:
-                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="yellow")
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#626328")
             else:
-                canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="white")
-            canvas.create_text((x0 + x1) // 2, (y0 + y1) // 2, text=matrix[i][j])
+                canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#1C2A41")
+            canvas.create_text((x0 + x1) // 2, (y0 + y1) // 2, text=matrix[i][j], fill="#95EFFA")
 
         # Draw lines
         for i in range(len(coordinates) - 1):
@@ -44,7 +44,7 @@ def draw_matrix_with_lines(matrix, coordinates, page):
             y0 = coordinates[i][0] * cell_height + cell_height // 2
             x1 = coordinates[i+1][1] * cell_width + cell_width // 2
             y1 = coordinates[i+1][0] * cell_height + cell_height // 2
-            canvas.create_line(x0, y0, x1, y1, fill="red", width=2)
+            canvas.create_line(x0, y0, x1, y1, fill="#F0A0F9", width=2)
 
 
 def open_file_dialog():
