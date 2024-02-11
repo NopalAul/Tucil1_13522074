@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import os
+import random
 from time import process_time
 # import sys
 # sys.path.append('../')
@@ -66,16 +67,6 @@ def open_file_dialog():
 
             n_sequences = int(file.readline().strip())
 
-            # del
-            # # Data: [[[sequence1], reward1], [[sequence2], reward2], ...]
-            # sequences_and_reward = []
-            # sequence = []
-            # for i in range(n_sequences):
-            #     sequence = [file.readline().strip().split()]
-            #     sequence.append(int(file.readline().strip()))
-            #     sequences_and_reward.append(sequence)
-            #     # print(f'len matrix: {len(matrix)}')
-            
             # Data: 2 array: 1 array untuk sequence, 1 array untuk reward
             sequence_list = []
             reward_list = []
@@ -83,26 +74,75 @@ def open_file_dialog():
                 sequence = file.readline().strip().split()
                 reward_list.append(int(file.readline().strip()))
                 sequence_list.append(sequence)
-        # test
-        print(f'sequences: {sequence}')
-        print(f'sequences_list: {sequence_list}')
-        print(f'reward_list: {reward_list}')
-        print(f'seq 1 tokens: {sequence_list[0]}')
-        print(f'seq 1 tokens 1: {sequence_list[0][0]}')
-        print(f'seq 1 reward: {reward_list[0]}')
-        print(f'n_sequences: {n_sequences}')
-        print(f'matrix: {matrix_arr}') 
-        print("Matrix:")
-        print_matrix
-        print(f'first row: {matrix_arr[0]}')    
-        print(f'first row first collumn: {matrix_arr[0][0]}')   
-        print(f'buffer_size: {buffer_size}')
-        print(f'matrix_size: {matrix_size}')
-        print(f'matrix_width: {matrix_width}')
-        print(f'matrix_height: {matrix_height}')
+        # # test
+        # print(f'sequences: {sequence}')
+        # print(f'sequences_list: {sequence_list}')
+        # print(f'reward_list: {reward_list}')
+        # print(f'seq 1 tokens: {sequence_list[0]}')
+        # print(f'seq 1 tokens 1: {sequence_list[0][0]}')
+        # print(f'seq 1 reward: {reward_list[0]}')
+        # print(f'n_sequences: {n_sequences}')
+        # print(f'matrix: {matrix_arr}') 
+        # print("Matrix:")
+        # print_matrix
+        # print(f'first row: {matrix_arr[0]}')    
+        # print(f'first row first collumn: {matrix_arr[0][0]}')   
+        # print(f'buffer_size: {buffer_size}')
+        # print(f'matrix_size: {matrix_size}')
+        # print(f'matrix_width: {matrix_width}')
+        # print(f'matrix_height: {matrix_height}')
     return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
 
-def print_matrix():
+def open_keyboard_input():
+    n_token = int(token_amount_input.get())
+    token = str(token_input.get())
+    buffer_size = int(buffer_size_input.get())
+    matrix_size = str(matrix_size_input.get())
+    n_sequences = int(sequence_amount_input.get())
+    max_sequence_size = int(max_sequence_input.get())
+
+    token_arr = token.split()
+    matrix_width = int(matrix_size.split()[0])
+    matrix_height = int(matrix_size.split()[1])
+
+    # Matrix generator
+    matrix_arr = [['' for i in range(matrix_height)] for j in range(matrix_width)]
+    for i in range(matrix_width):
+        for j in range(matrix_height):
+            random_token = random.choice(token_arr) 
+            matrix_arr[i][j] = random_token
+
+    sequence_list = []
+    reward_list = []
+    for i in range(n_sequences):
+        sequence = []
+        for j in range(random.randint(2, max_sequence_size)):
+            random_token = random.choice(token_arr)
+            sequence.append(random_token)
+        sequence_list.append(sequence)
+        reward_list.append(random.randint(10, 100))
+
+    # test
+    print(f'sequences: {sequence}')
+    print(f'sequences_list: {sequence_list}')
+    print(f'reward_list: {reward_list}')
+    print(f'seq 1 tokens: {sequence_list[0]}')
+    print(f'seq 1 tokens 1: {sequence_list[0][0]}')
+    print(f'seq 1 reward: {reward_list[0]}')
+    print(f'n_sequences: {n_sequences}')
+    print(f'matrix: {matrix_arr}') 
+    print("Matrix:")
+    print_matrix(matrix_arr)
+    print(f'first row: {matrix_arr[0]}')    
+    print(f'first row first collumn: {matrix_arr[0][0]}')   
+    print(f'buffer_size: {buffer_size}')
+    print(f'matrix_size: {matrix_size}')
+    print(f'matrix_width: {matrix_width}')
+    print(f'matrix_height: {matrix_height}')
+
+    return matrix_arr, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size, sequence_list, reward_list
+
+def print_matrix(matrix_arr):
     for i in range(len(matrix_arr)):
         for j in range(len(matrix_arr[0])):
             print(f'{matrix_arr[i][j]}', end=' ')
@@ -431,36 +471,42 @@ Label(page3, image=img_title_page3, bg='#0B0F28').pack(pady=(55, 0))
 token_amount_img = PhotoImage(file=asset_path+'/inputamt.png')
 Label(page3, image=token_amount_img, bg='#0B0F28').place(x=59.8, y=171)
 token_amount_text = Label(page3, text='TOKEN AMOUNT:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=85, y=181)
-token_amount_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA').place(x=252, y=181)
+token_amount_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+token_amount_input.place(x=252, y=181)
 
 token_img = PhotoImage(file=asset_path+'/tokeninput.png')
 Label(page3, image=token_img, bg='#0B0F28').place(x=59.8, y=231)
 token_text = Label(page3, text='TOKEN:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=140, y=241)
-token_input = Entry(page3, width=20, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA').place(x=80, y=281)
+token_input = Entry(page3, width=20, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+token_input.place(x=80, y=281)
 
 # Buffer size
 buffer_size_img = PhotoImage(file=asset_path+'/inputamt.png')
 Label(page3, image=buffer_size_img, bg='#0B0F28').place(x=59.8, y=333)
 buffer_size_text = Label(page3, text='BUFFER SIZE:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=100, y=343)
-buffer_size_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA').place(x=252, y=345)
+buffer_size_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+buffer_size_input.place(x=252, y=345)
 
 # Matrix size
 matrix_size_img = PhotoImage(file=asset_path+'/inputamt.png')
 Label(page3, image=matrix_size_img, bg='#0B0F28').place(x=59.8, y=393)
 matrix_size_text = Label(page3, text='MATRIX SIZE:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=100, y=403)
-matrix_size_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA').place(x=252, y=406)
+matrix_size_input = Entry(page3, width=3, border=0, font=('Microsoft YaHei UI',10), bg='#1C2A41', fg='#95EFFA')
+matrix_size_input.place(x=249, y=406)
 
 # Sequence amount
 sequence_amount_img = PhotoImage(file=asset_path+'/inputamt.png')
 Label(page3, image=sequence_amount_img, bg='#0B0F28').place(x=59.8, y=454)
 sequence_amount_text = Label(page3, text='SEQUENCE AMT:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=86, y=464)
-sequence_amount_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA').place(x=252, y=466)
+sequence_amount_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+sequence_amount_input.place(x=252, y=466)
 
 # Max sequence
 max_sequence_img = PhotoImage(file=asset_path+'/inputamt.png')
 Label(page3, image=max_sequence_img, bg='#0B0F28').place(x=59.8, y=515)
 max_sequence_text = Label(page3, text='MAX SEQUENCE:', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=86, y=525)
-max_sequence_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA').place(x=252, y=527)
+max_sequence_input = Entry(page3, width=2, border=0, font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+max_sequence_input.place(x=252, y=527)
 
 # Matrix
 matrix_text3 = Label(page3, text='M A T R I X :', font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='white').place(x=350, y=130)
@@ -470,7 +516,7 @@ Label(page3, image=matrix_container3, bg='#0B0F28').place(x=350, y=160)
 # Solve Button
 solve_btn_img3 = PhotoImage(file=asset_path+'/solvebtn.png')
 Label(page3, image=solve_btn_img3, bg='#0B0F28').place(x=64.8, y=591)
-solve_btn3 = Button(page3, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT).place(x=130, y=620)
+solve_btn3 = Button(page3, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=open_keyboard_input).place(x=130, y=620)
 
 # Result
 max_reward_img3 = PhotoImage(file=asset_path+'/maxreward.png')
