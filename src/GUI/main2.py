@@ -107,8 +107,8 @@ def open_keyboard_input():
     max_sequence_size = int(max_sequence_input.get())
 
     token_arr = token.split()
-    matrix_width = int(matrix_size.split()[0])
-    matrix_height = int(matrix_size.split()[1])
+    matrix_width = int(matrix_size.split()[1])
+    matrix_height = int(matrix_size.split()[0])
 
     # Matrix generator
     matrix_arr = [['' for i in range(matrix_height)] for j in range(matrix_width)]
@@ -265,27 +265,7 @@ def solve():
         coordinate_result[index_reward] = []
         sequences_result_final = '                      -'
 
-        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page2)
-        max_reward_result.config(text=max_reward)
-        sequence_result.config(text=sequences_result_final)
-        time_result.config(text=f'{timer} ms')
-
-        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page3)
-        max_reward_result3.config(text=max_reward)
-        sequence_result3.config(text=sequences_result_final)
-        time_result3.config(text=f'{timer} ms')
-
     else:
-        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page2)
-        max_reward_result.config(text=max_reward)
-        sequence_result.config(text=sequences_result_final)
-        time_result.config(text=f'{timer} ms')
-
-        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page3)
-        max_reward_result3.config(text=max_reward)
-        sequence_result3.config(text=sequences_result_final)
-        time_result3.config(text=f'{timer} ms')
-
         print(f'Reward maksimal: {max_reward}')
         print(f'Sekuens: {sequences_result_final}')
         print('Koordinat: ')
@@ -330,10 +310,12 @@ def save_output():
     if file_name:
         with open('test/'+ file_name, 'w') as file:
             file.write(f'{max_reward}\n')
-            file.write(f'{sequences_result_final}\n')
-            for coord in coordinate_result_final:
-                file.write(f'{coord}\n')
+            if(max_reward != 0):
+                file.write(f'{sequences_result_final}\n')
+                for coord in coordinate_result_final:
+                    file.write(f'{coord}\n')
             file.write(f'\n{timer} ms\n')
+
         print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
         save_window.destroy()
 
@@ -476,7 +458,7 @@ time_img = PhotoImage(file=asset_path+'/time.png')
 Label(page2, image=time_img, bg='#0B0F28').place(x=826, y=590)
 time_text = Label(page2, text='TIME :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=860, y=600)
 time_result = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
-time_result.place(x=844, y=635)
+time_result.place(x=840, y=635)
 
 
 
