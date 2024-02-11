@@ -279,24 +279,21 @@ def solve():
     save_label = Label(page2, image=save_btn_img, bg='#0B0F28')
     save_label.image = save_btn_img
     save_label.place(x=64.8, y=595)
+
+    save_label3 = Label(page3, image=save_btn_img, bg='#0B0F28')
+    save_label3.image = save_btn_img
+    save_label3.place(x=64.8, y=595)
+
     save_btn = Button(page2, text='S A V E', font=('Microsoft YaHei UI',13), bg='#1C2A41', fg='#95EFFA', relief=FLAT, command=save_file)
     save_btn.place(x=137, y=624)
 
+    save_btn3 = Button(page3, text='S A V E', font=('Microsoft YaHei UI',13), bg='#1C2A41', fg='#95EFFA', relief=FLAT, command=save_file)
+    save_btn3.place(x=137, y=624)
+
     solve_label.destroy()
     solve_btn.destroy()
-
-    # # OUTPUT SOLUTION TO FILE
-    # choice = input("\nApakah anda ingin menyimpan solusi ke dalam file? (y/n): ")
-
-    # if choice == 'y':
-    #     file_name = str(input("Masukkan nama file (contoh.txt): "))
-    #     with open('test/'+ file_name, 'w') as file:
-    #         file.write(f'{max_reward}\n')
-    #         file.write(f'{sequences_result_final}\n')
-    #         for coord in coordinate_result_final:
-    #             file.write(f'{coord}\n')
-    #         file.write(f'\n{timer} ms\n')
-    #     print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
+    solve_label3.destroy()
+    solve_btn3.destroy()
 
 def save_output():
     file_name = prompt.get()
@@ -514,8 +511,10 @@ Label(page3, image=matrix_container3, bg='#0B0F28').place(x=350, y=160)
 
 # Solve Button
 solve_btn_img3 = PhotoImage(file=asset_path+'/solvebtn.png')
-Label(page3, image=solve_btn_img3, bg='#0B0F28').place(x=64.8, y=591)
-solve_btn3 = Button(page3, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=solve_keyboard).place(x=130, y=620)
+solve_label3 = Label(page3, image=solve_btn_img3, bg='#0B0F28')
+solve_label3.place(x=64.8, y=591)
+solve_btn3 = Button(page3, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=solve_keyboard)
+solve_btn3.place(x=130, y=620)
 
 # Result
 max_reward_img3 = PhotoImage(file=asset_path+'/maxreward.png')
