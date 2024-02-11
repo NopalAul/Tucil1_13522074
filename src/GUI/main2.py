@@ -262,13 +262,37 @@ def solve():
         print('Koordinat: - ')
         print(f'\nWaktu eksekusi: {timer} ms')
 
+        coordinate_result[index_reward] = []
+        sequences_result_final = '                      -'
+
+        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page2)
+        max_reward_result.config(text=max_reward)
+        sequence_result.config(text=sequences_result_final)
+        time_result.config(text=f'{timer} ms')
+
+        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page3)
+        max_reward_result3.config(text=max_reward)
+        sequence_result3.config(text=sequences_result_final)
+        time_result3.config(text=f'{timer} ms')
+
     else:
+        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page2)
+        max_reward_result.config(text=max_reward)
+        sequence_result.config(text=sequences_result_final)
+        time_result.config(text=f'{timer} ms')
+
+        draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page3)
+        max_reward_result3.config(text=max_reward)
+        sequence_result3.config(text=sequences_result_final)
+        time_result3.config(text=f'{timer} ms')
+
         print(f'Reward maksimal: {max_reward}')
         print(f'Sekuens: {sequences_result_final}')
         print('Koordinat: ')
         for coord in coordinate_result_final:
             print(f'{coord}')
         print(f'\nWaktu eksekusi: {timer} ms')
+    
     
     draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page2)
     max_reward_result.config(text=max_reward)
