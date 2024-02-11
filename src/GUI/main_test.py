@@ -194,6 +194,7 @@ def solve():
     global max_reward
     global sequences_result_final
     global coordinate_result_final
+    global timer
 
     # cari index reward maksimal dari list reward_candidate
     rewarding(sequences_result, sequence_list, reward_list)
@@ -234,11 +235,33 @@ def solve():
     sequence_result.config(text=sequences_result_final)
     time_result.config(text=f'{timer} ms')
 
-    # OUTPUT SOLUTION TO FILE
-    choice = input("\nApakah anda ingin menyimpan solusi ke dalam file? (y/n): ")
+    # Save Button
+    save_btn_img = PhotoImage(file=asset_path+'/save.png')
+    save_label = Label(page2, image=save_btn_img, bg='#0B0F28')
+    save_label.image = save_btn_img
+    save_label.place(x=64.8, y=595)
+    save_btn = Button(page2, text='S A V E', font=('Microsoft YaHei UI',13), bg='#1C2A41', fg='#95EFFA', relief=FLAT, command=save_file)
+    save_btn.place(x=137, y=624)
 
-    if choice == 'y':
-        file_name = str(input("Masukkan nama file (contoh.txt): "))
+    solve_label.destroy()
+    solve_btn.destroy()
+
+    # # OUTPUT SOLUTION TO FILE
+    # choice = input("\nApakah anda ingin menyimpan solusi ke dalam file? (y/n): ")
+
+    # if choice == 'y':
+    #     file_name = str(input("Masukkan nama file (contoh.txt): "))
+    #     with open('test/'+ file_name, 'w') as file:
+    #         file.write(f'{max_reward}\n')
+    #         file.write(f'{sequences_result_final}\n')
+    #         for coord in coordinate_result_final:
+    #             file.write(f'{coord}\n')
+    #         file.write(f'\n{timer} ms\n')
+    #     print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
+
+def save_output():
+    file_name = prompt.get()
+    if file_name:
         with open('test/'+ file_name, 'w') as file:
             file.write(f'{max_reward}\n')
             file.write(f'{sequences_result_final}\n')
@@ -246,16 +269,39 @@ def solve():
                 file.write(f'{coord}\n')
             file.write(f'\n{timer} ms\n')
         print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
+        save_window.destroy()
+
+def cancel_save():
+    save_window.destroy()
 
 def save_file():
-    file_name = str(input("Masukkan nama file (contoh.txt): "))
-    with open('test/'+ file_name, 'w') as file:
-        file.write(f'{max_reward}\n')
-        file.write(f'{sequences_result_final}\n')
-        for coord in coordinate_result_final:
-            file.write(f'{coord}\n')
-        file.write(f'\n{timer} ms\n')
-    print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
+    global save_window
+    save_window = Toplevel(page2)
+    widht = 400
+    height = 300
+    x = (save_window.winfo_screenwidth()//2) - (widht//2) 
+    y = (save_window.winfo_screenheight()//2) - (height//2)
+    save_window.geometry(f'{widht}x{height}+{x}+{y}')
+    window.resizable(False, False)
+    save_window.configure(bg='#0B0F28')
+
+    save_txt = Label(save_window, text='ENTER THE FILE NAME : ', font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='white').pack(pady=(68, 0))
+
+    global prompt
+    prompt = Entry(save_window, width=30, border=0, font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28')
+    prompt.pack(pady=(20, 0))
+
+    submit_btn_img = PhotoImage(file=asset_path+'/submit.png')
+    submit_label = Label(save_window, image=submit_btn_img, bg='#0B0F28')
+    submit_label.image = submit_btn_img
+    submit_label.place(x=45, y=175)
+    submit_btn = Button(save_window, text='S U B M I T', font=('Microsoft YaHei UI',10), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=save_output).place(x=82, y=193)
+
+    cancel_btn_img = PhotoImage(file=asset_path+'/cancel.png')
+    cancel_label = Label(save_window, image=cancel_btn_img, bg='#0B0F28')
+    cancel_label.image = cancel_btn_img
+    cancel_label.place(x=195, y=175) 
+    cancel_btn = Button(save_window, text='C A N C E L', font=('Microsoft YaHei UI',10), bg='#250029', fg='#F0A0F9', relief=FLAT, command=cancel_save).place(x=229, y=193)
 
 
 
@@ -316,7 +362,7 @@ page2.configure(bg='#0B0F28')
 
 # Back button
 back_btn_img2 = PhotoImage(file=asset_path+'/back.png')
-back_btn2 = Button(page2, image=back_btn_img2, bg='#0B0F28', relief=FLAT, command=lambda: show_frame(page1)).place(x=82, y=62)
+back_btn2 = Button(page2, image=back_btn_img2, bg='#0B0F28', relief=FLAT, command=lambda: show_frame(page1)).place(x=82, y=62+110)
 
 # Title
 img_title_page2 = PhotoImage(file=asset_path+'/titletxt.png')
@@ -324,21 +370,23 @@ Label(page2, image=img_title_page2, bg='#0B0F28').pack(pady=(61, 0))
 
 # Browse Button
 browse_btn_img = PhotoImage(file=asset_path+'/browse.png')
-Label(page2, image=browse_btn_img, bg='#0B0F28').place(x=64.8, y=146)
-browse_btn = Button(page2, text='B R O W S E', font=('Microsoft YaHei UI',13), bg='#95EFFA', fg='#0B0F28', relief=FLAT, command=open_file_dialog).place(x=119, y=174)
+Label(page2, image=browse_btn_img, bg='#0B0F28').place(x=64.8, y=146+110)
+browse_btn = Button(page2, text='B R O W S E', font=('Microsoft YaHei UI',13), bg='#95EFFA', fg='#0B0F28', relief=FLAT, command=open_file_dialog).place(x=119, y=174+110)
 
 # Uploaded File
 uploaded_file_img = PhotoImage(file=asset_path+'/uploaded.png')
-Label(page2, image=uploaded_file_img, bg='#0B0F28').place(x=59.8, y=261)
-uploaded_file_text = Label(page2, text='UPLOADED FILE : ', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=105, y=270)
+Label(page2, image=uploaded_file_img, bg='#0B0F28').place(x=59.8, y=261+110)
+uploaded_file_text = Label(page2, text='UPLOADED FILE : ', font=('Microsoft YaHei UI',12), bg='#95EFFA', fg='#0B0F28').place(x=105, y=270+110)
 
-selected_file_label = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='#95EFFA')
-selected_file_label.place(x=135, y=310)
+selected_file_label = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+selected_file_label.place(x=135, y=310+110)
 
 # Solve Button
 solve_btn_img = PhotoImage(file=asset_path+'/solvebtn.png')
-Label(page2, image=solve_btn_img, bg='#0B0F28').place(x=64.8, y=591)
-solve_btn = Button(page2, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=solve).place(x=130, y=620)
+solve_label = Label(page2, image=solve_btn_img, bg='#0B0F28')
+solve_label.place(x=64.8, y=591)
+solve_btn = Button(page2, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=solve)
+solve_btn.place(x=130, y=620)
 
 # Matrix
 matrix_text = Label(page2, text='M A T R I X :', font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='white').place(x=350, y=130)
