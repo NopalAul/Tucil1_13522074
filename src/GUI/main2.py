@@ -12,8 +12,8 @@ asset_path = os.path.abspath('src/GUI/assets')
 ################### ALGORITHM FUNCTION ###################
 
 
-def draw_matrix_with_lines(matrix, coordinates):
-    canvas = Canvas(page2, width=556, height=390, bg='#E5FDFF', border=0)
+def draw_matrix_with_lines(matrix, coordinates, page):
+    canvas = Canvas(page, width=556, height=390, bg='#E5FDFF', border=0)
     # canvas = Canvas(page3, width=300, height=300)
     canvas.place(x=360, y=170)
 
@@ -94,6 +94,11 @@ def open_file_dialog():
     return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
 
 def open_keyboard_input():
+    global matrix_arr
+    global buffer_size
+    global sequence_list
+    global reward_list
+
     n_token = int(token_amount_input.get())
     token = str(token_input.get())
     buffer_size = int(buffer_size_input.get())
@@ -148,7 +153,12 @@ def print_matrix(matrix_arr):
             print(f'{matrix_arr[i][j]}', end=' ')
         print()
 
+def solve_keyboard():
+    open_keyboard_input()
+    solve()
+
 def solve():
+
     # BRUTE FORCE ALGORITHM
     # Inisialisasi variabel untuk menyimpan koordinat yang sudah digunakan/dikunjungi
     used_coordinates = set()
@@ -200,16 +210,6 @@ def solve():
             updated_sub_list.append(updated_tuple)
         coordinate_result_update.append(updated_sub_list)
 
-    # del
-    # print(coordinate_result_update)
-    # # File Output
-    # def write_sequences_to_file(sequences, file_name):
-    #     with open(file_name, 'w') as file:
-    #         for sequence in sequences:
-    #             file.write(str(sequence) + '\n')
-    # write_sequences_to_file(sequences_result, 'output.txt') # del
-    # write_sequences_to_file(coordinate_result, 'outputCoord.txt') # del
-
     # Fungsi untuk mekanisme rewarding
     def rewarding(sequences_result, sequences_list, reward_list):
         reward_candidate = []
@@ -245,12 +245,6 @@ def solve():
     sequences_result_final = ' '.join(sequences_result[index_reward])
     coordinate_result_final = coordinate_result_update[index_reward]
 
-    # # test
-    # print(f'indeks reward: {index_reward}')
-    # print(f'reward: {max_reward}')
-    # print(f'sequences: {sequences_result_final}')
-    # print(f'coordinate: {coordinate_result_final}')
-
     stop_time = process_time()
     timer = round((stop_time - start_time)*1000, 2)
 
@@ -270,10 +264,15 @@ def solve():
             print(f'{coord}')
         print(f'\nWaktu eksekusi: {timer} ms')
     
-    draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward])
+    draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page2)
     max_reward_result.config(text=max_reward)
     sequence_result.config(text=sequences_result_final)
     time_result.config(text=f'{timer} ms')
+
+    draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page3)
+    max_reward_result3.config(text=max_reward)
+    sequence_result3.config(text=sequences_result_final)
+    time_result3.config(text=f'{timer} ms')
 
     # Save Button
     save_btn_img = PhotoImage(file=asset_path+'/save.png')
@@ -516,20 +515,26 @@ Label(page3, image=matrix_container3, bg='#0B0F28').place(x=350, y=160)
 # Solve Button
 solve_btn_img3 = PhotoImage(file=asset_path+'/solvebtn.png')
 Label(page3, image=solve_btn_img3, bg='#0B0F28').place(x=64.8, y=591)
-solve_btn3 = Button(page3, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=open_keyboard_input).place(x=130, y=620)
+solve_btn3 = Button(page3, text='S O L V E', font=('Microsoft YaHei UI',13), bg='#F0A0F9', fg='#0B0F28', relief=FLAT, command=solve_keyboard).place(x=130, y=620)
 
 # Result
 max_reward_img3 = PhotoImage(file=asset_path+'/maxreward.png')
 Label(page3, image=max_reward_img3, bg='#0B0F28').place(x=310, y=590)
 max_reward_text3 = Label(page3, text='MAXIMUM REWARD :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=335, y=600)
+max_reward_result3 = Label(page3, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+max_reward_result3.place(x=400, y=635)
 
 sequence_img3 = PhotoImage(file=asset_path+'/sequence.png')
 Label(page3, image=sequence_img3, bg='#0B0F28').place(x=538, y=590)
 sequence_text3 = Label(page3, text='SEQUENCE :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=633, y=600)
+sequence_result3 = Label(page3, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+sequence_result3.place(x=563, y=635)
 
 time_img3 = PhotoImage(file=asset_path+'/time.png')
 Label(page3, image=time_img3, bg='#0B0F28').place(x=826, y=590)
 time_text3 = Label(page3, text='TIME :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=860, y=600)
+time_result3 = Label(page3, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
+time_result3.place(x=844, y=635)
 
 # END
 window.mainloop()
