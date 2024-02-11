@@ -209,6 +209,12 @@ def solve():
             updated_tuple = tuple(element + 1 for element in tup)
             updated_sub_list.append(updated_tuple)
         coordinate_result_update.append(updated_sub_list)
+    
+    # Swap elemen koordinat (row, col) ke (col, row)
+    coordinate_result_reversed = []
+    for sub_list in coordinate_result_update:
+        reversed_sub_list = [(tup[1], tup[0]) for tup in sub_list]
+        coordinate_result_reversed.append(reversed_sub_list)
 
     # Fungsi untuk mekanisme rewarding
     def rewarding(sequences_result, sequences_list, reward_list):
@@ -243,7 +249,7 @@ def solve():
 
     # hasil solusi
     sequences_result_final = ' '.join(sequences_result[index_reward])
-    coordinate_result_final = coordinate_result_update[index_reward]
+    coordinate_result_final = coordinate_result_reversed[index_reward]
 
     stop_time = process_time()
     timer = round((stop_time - start_time)*1000, 2)
