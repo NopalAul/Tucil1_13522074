@@ -337,6 +337,7 @@ def show_frame(frame):
 
 show_frame(page1)
 
+
 ############## PAGE 1: HOME ##############
 # Background
 page1.configure(bg='#0B0F28')
@@ -416,8 +417,6 @@ Label(page2, image=time_img, bg='#0B0F28').place(x=826, y=590)
 time_text = Label(page2, text='TIME :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=860, y=600)
 time_result = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
 time_result.place(x=842, y=635)
-
-
 
 
 ############## PAGE 3: AUTO INPUT ##############
