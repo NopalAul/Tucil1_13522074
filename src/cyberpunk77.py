@@ -6,20 +6,15 @@ import random
 from time import process_time
 import sys
 
-# ############  COLOR : #1C2A41
-# asset_path = os.path.abspath('src/assets')
-asset_path = 'assets'
 
+################### ALGORITHM FUNCTION ###################
+# ASSETS PATH
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
-# path = resource_path("image.png")
-# photo = tk.PhotoImage(file=path)
-
-################### ALGORITHM FUNCTION ###################
-
+# MATRIX DISPLAYER
 def draw_matrix_with_lines(matrix, coordinates, page):
     cell_width = 50
     cell_height = 50

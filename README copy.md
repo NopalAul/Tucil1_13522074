@@ -1,6 +1,5 @@
-# Tugas Kecil I Strategi Algoritma (IF2211)
-## Muhammad
-Tucil1_13522074
+# Tucil1_13522074
+Tugas Kecil 1 Strategi Algortima
 
 # Tugas Besar II Aljabar Linear dan Geometri (IF2123)
 ## Kelompok 13: 3 Musketeers
