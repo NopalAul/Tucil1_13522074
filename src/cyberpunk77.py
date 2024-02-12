@@ -6,122 +6,14 @@ import random
 from time import process_time
 import sys
 
+# program ini menggunakan library-library berikut:
+# - tkinter: untuk membuat GUI
+# - os: untuk mengakses file
+# - random: untuk menghasilkan angka random
+# - time: untuk menghitung waktu eksekusi
+# - sys: untuk mengakses path file
 
 ################### ALGORITHM FUNCTION ###################
-# ASSETS PATH
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
-
-# MATRIX DISPLAYER
-def draw_matrix_with_lines(matrix, coordinates, page):
-    cell_width = 50
-    cell_height = 50
-    canvas_widht = len(matrix[0]) * cell_width
-    canvas_height = len(matrix) * cell_height
-    canvas = Canvas(page, width=canvas_widht, height=canvas_height, bg='#E5FDFF', border=0)
-    canvas.pack(expand=True, pady=(0, 60), padx=(280, 0))
-
-    # Gambar matrix
-    for i in range(len(matrix)):
-        for j in range(len(matrix[0])):
-            x0 = j * cell_width
-            y0 = i * cell_height
-            x1 = x0 + cell_width
-            y1 = y0 + cell_height
-            if (i, j) in coordinates:
-                if (i, j) == coordinates[-1]:
-                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#632828")
-                elif (i, j) == coordinates[0]:
-                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#3B6328")
-                else:
-                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#626328")
-            else:
-                canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#1C2A41")
-            canvas.create_text((x0 + x1) // 2, (y0 + y1) // 2, text=matrix[i][j], fill="#95EFFA")
-
-        # Gambar garis lintasan
-        for i in range(len(coordinates) - 1):
-            x0 = coordinates[i][1] * cell_width + cell_width // 2
-            y0 = coordinates[i][0] * cell_height + cell_height // 2
-            x1 = coordinates[i+1][1] * cell_width + cell_width // 2
-            y1 = coordinates[i+1][0] * cell_height + cell_height // 2
-            canvas.create_line(x0, y0, x1, y1, fill="#F0A0F9", width=2)
-
-# INPUT FILE
-def open_file_dialog():
-    global matrix_arr
-    global buffer_size
-    global sequence_list
-    global reward_list
-    file_path = filedialog.askopenfilename()
-    if file_path:
-        file_name = os.path.basename(file_path)
-        selected_file_label.config(text=file_name)
-        with open(file_path, 'r') as file:
-            buffer_size = int(file.readline().strip())
-            matrix_size = file.readline().split()
-            matrix_width = int(matrix_size[0])
-            matrix_height = int(matrix_size[1])
-            matrix_arr = []
-            for i in range(matrix_height):
-                matrix_arr.append(file.readline().strip().split())
-
-            n_sequences = int(file.readline().strip())
-
-            # Data: 2 array: 1 array untuk sequence, 1 array untuk reward
-            sequence_list = []
-            reward_list = []
-            for i in range(n_sequences):
-                sequence = file.readline().strip().split()
-                reward_list.append(int(file.readline().strip()))
-                sequence_list.append(sequence)
-
-    return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
-
-# INPUT KEYBOARD 
-def open_keyboard_input():
-    global matrix_arr
-    global buffer_size
-    global sequence_list
-    global reward_list
-
-    n_token = int(token_amount_input.get())
-    token = str(token_input.get())
-    buffer_size = int(buffer_size_input.get())
-    matrix_size = str(matrix_size_input.get())
-    n_sequences = int(sequence_amount_input.get())
-    max_sequence_size = int(max_sequence_input.get())
-
-    token_arr = token.split()
-    matrix_width = int(matrix_size.split()[1])
-    matrix_height = int(matrix_size.split()[0])
-
-    # Matrix generator
-    matrix_arr = [['' for i in range(matrix_height)] for j in range(matrix_width)]
-    for i in range(matrix_width):
-        for j in range(matrix_height):
-            random_token = random.choice(token_arr) 
-            matrix_arr[i][j] = random_token
-
-    # Sequence & reward generator
-    sequence_list = []
-    reward_list = []
-    for i in range(n_sequences):
-        sequence = []
-        for j in range(random.randint(2, max_sequence_size)):
-            random_token = random.choice(token_arr)
-            sequence.append(random_token)
-        sequence_list.append(sequence)
-        reward_list.append(random.randint(10, 100))
-
-    return matrix_arr, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size, sequence_list, reward_list
-
-def solve_keyboard():
-    open_keyboard_input()
-    solve()
-
 # BRUTE FORCE ALGORITHM
 def solve():
     # Inisialisasi penyimpan koordinat yang sudah digunakan/dikunjungi 
@@ -270,21 +162,123 @@ def solve():
     solve_btn3.destroy()
 
 
+# ASSETS PATH
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+# MATRIX DISPLAYER
+def draw_matrix_with_lines(matrix, coordinates, page):
+    cell_width = 50
+    cell_height = 50
+    canvas_widht = len(matrix[0]) * cell_width
+    canvas_height = len(matrix) * cell_height
+    canvas = Canvas(page, width=canvas_widht, height=canvas_height, bg='#E5FDFF', border=0)
+    canvas.pack(expand=True, pady=(0, 60), padx=(280, 0))
+
+    # Gambar matrix
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            x0 = j * cell_width
+            y0 = i * cell_height
+            x1 = x0 + cell_width
+            y1 = y0 + cell_height
+            if (i, j) in coordinates:
+                if (i, j) == coordinates[-1]:
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#632828")
+                elif (i, j) == coordinates[0]:
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#3B6328")
+                else:
+                    canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#626328")
+            else:
+                canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#1C2A41")
+            canvas.create_text((x0 + x1) // 2, (y0 + y1) // 2, text=matrix[i][j], fill="#95EFFA")
+
+        # Gambar garis lintasan
+        for i in range(len(coordinates) - 1):
+            x0 = coordinates[i][1] * cell_width + cell_width // 2
+            y0 = coordinates[i][0] * cell_height + cell_height // 2
+            x1 = coordinates[i+1][1] * cell_width + cell_width // 2
+            y1 = coordinates[i+1][0] * cell_height + cell_height // 2
+            canvas.create_line(x0, y0, x1, y1, fill="#F0A0F9", width=2)
+
+# INPUT FILE
+def open_file_dialog():
+    global matrix_arr
+    global buffer_size
+    global sequence_list
+    global reward_list
+    file_path = filedialog.askopenfilename()
+    if file_path:
+        file_name = os.path.basename(file_path)
+        selected_file_label.config(text=file_name)
+        with open(file_path, 'r') as file:
+            buffer_size = int(file.readline().strip())
+            matrix_size = file.readline().split()
+            matrix_width = int(matrix_size[0])
+            matrix_height = int(matrix_size[1])
+            matrix_arr = []
+            for i in range(matrix_height):
+                matrix_arr.append(file.readline().strip().split())
+
+            n_sequences = int(file.readline().strip())
+
+            # Data: 2 array: 1 array untuk sequence, 1 array untuk reward
+            sequence_list = []
+            reward_list = []
+            for i in range(n_sequences):
+                sequence = file.readline().strip().split()
+                reward_list.append(int(file.readline().strip()))
+                sequence_list.append(sequence)
+
+    return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
+
+# INPUT KEYBOARD 
+def open_keyboard_input():
+    global matrix_arr
+    global buffer_size
+    global sequence_list
+    global reward_list
+
+    n_token = int(token_amount_input.get())
+    token = str(token_input.get())
+    buffer_size = int(buffer_size_input.get())
+    matrix_size = str(matrix_size_input.get())
+    n_sequences = int(sequence_amount_input.get())
+    max_sequence_size = int(max_sequence_input.get())
+
+    token_arr = token.split()
+    matrix_width = int(matrix_size.split()[1])
+    matrix_height = int(matrix_size.split()[0])
+
+    # Matrix generator
+    matrix_arr = [['' for i in range(matrix_height)] for j in range(matrix_width)]
+    for i in range(matrix_width):
+        for j in range(matrix_height):
+            random_token = random.choice(token_arr) 
+            matrix_arr[i][j] = random_token
+
+    # Sequence & reward generator
+    sequence_list = []
+    reward_list = []
+    for i in range(n_sequences):
+        sequence = []
+        for j in range(random.randint(2, max_sequence_size)):
+            random_token = random.choice(token_arr)
+            sequence.append(random_token)
+        sequence_list.append(sequence)
+        reward_list.append(random.randint(10, 100))
+
+    return matrix_arr, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size, sequence_list, reward_list
+
+def solve_keyboard():
+    open_keyboard_input()
+    solve()
+
+
 # SAVE FILE GUI
 def save_file():
-    global save_window
-    save_window = Toplevel(page2)
-    widht = 400
-    height = 300
-    x = (save_window.winfo_screenwidth()//2) - (widht//2) 
-    y = (save_window.winfo_screenheight()//2) - (height//2)
-    save_window.geometry(f'{widht}x{height}+{x}+{y}')
-    window.resizable(False, False)
-    save_window.configure(bg='#0B0F28')
-
-    save_txt = Label(save_window, text='ENTER THE FILE NAME : ', font=('Microsoft YaHei UI',12), bg='#0B0F28', fg='white').pack(pady=(68, 0))
-
-    global file_path
     file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
     if file_path:
         with open(file_path, 'w') as file:
@@ -297,8 +291,6 @@ def save_file():
         
         messagebox.showinfo("Save", f"Saved on {file_path}")
 
-        print(f'\nSolusi berhasil disimpan ke dalam file {file_path}')
-        save_window.destroy()
 
 
 ################### TKINTER GUI ###################

@@ -1,67 +1,49 @@
 # Tugas Kecil I Strategi Algoritma (IF2211)
-## Muhammad
-Tucil1_13522074
+## Muhammad Naufal Aulia (13522074)
 
-# Tugas Besar II Aljabar Linear dan Geometri (IF2123)
-## Kelompok 13: 3 Musketeers
-- Denise Felicia Tiowanni	13522013
-- Muhammad Naufal Aulia	    13522074
-- Abdullah Mubarak	        13522101
 
 ## Table of Contents
-* [Tentang Website](#website-sistem-temu-balik-gambar)
-* [Screenshots](#technologies-used)
-* [Dependencies](#dependencies)
+* [Tentang Program](#cyberpunk)
 * [Screenshots](#screenshots)
-* [Setup](#setup)
+* [Dependencies](#dependencies)
+* [How to Use](#how-to-use)
 
 
-## Website Sistem Temu Balik Gambar <a href="website-sistem-temu-balik-gambar"></a>
-Website Reverse Image Search
-> Sistem temu balik gambar berbasis website yang diimplementasikan menggunakan pendekatan klasifikasi berbasis konten dengan aljabar vektor.
-Sistem temu balik gambar memungkinkan kita untuk dengan mudah mencari, mengakses, dan mengelola koleksi gambar. Kita dapat mengeksplorasi informasi visual yang tersimpan di berbagai platform, termasuk pencarian gambar pribadi, analisis gambar medis untuk diagnosis, pencarian ilustrasi ilmiah, hingga mencari produk.
-Berikut video mengenai website:
+## Cyberpunk 2077 Breach Protocol Solver (Desktop App) <a href="cyberpunk"></a>
+> Cyberpunk 2077 Breach Protocol adalah minigame meretas pada permainan video Cyberpunk 2077. Minigame ini merupakan simulasi peretasan jaringan local dari ICE (Intrusion Countermeasures Electronics) pada permainan Cyberpunk 2077. 
+
+Pada program ini, dilakukan pencarian solusi atas persoalan tersebut menggunakan pendekatan algoritma _brute force_   yang akan mencoba semua kemungkinan solusi yang ada, dan memilih solusi yang paling optimal. Solusi beserta urutan sekuensnya akan ditampilkan pada GUI yang ada di program ini.
+
 <!-- > Live demo [_here_](https://www.example.com).If you have the project hosted somewhere, include the link here. -->
-[nonton ini dulu ga sih](https://youtu.be/kTaZdwUF400?si=oeym0EgkqAKwQucP)
-
-
-## Dependencies <a href="dependencies"></a>
-- Python 3.x
-- Nodejs
-- virtualenv `pip install virtualenv`
+<!-- [nonton ini dulu ga sih](https://youtu.be/kTaZdwUF400?si=oeym0EgkqAKwQucP) -->
 
 
 ## Screenshots <a href="screenshots"></a>
-![Example screenshot](./img/image11.png)
-![Example screenshot](./img/image28.png)
-![Example screenshot](./img/image8.png)
+![Example screenshot](./readme_img/image11.png)
+![Example screenshot](./readme_img/image28.png)
+![Example screenshot](./readme_img/image8.png)
 
+## Dependencies <a href="dependencies"></a>
+- Python 3.x
 
-## Setup <a href="setup"></a>
+## How to Use <a href="how-to-use"></a>
 1. Clone repository ini dengan 
     ```
-    git clone https://github.com/NopalAul/Algeo02-22013
+    git clone https://github.com/NopalAul/Tucil1_13522074
     ```
-2. Di dalam direktori tersebut, buat virtual environment dengan
+2. Buka file directory/location tempat repository berada, buka folder `bin`, buka folder `dist`, hingga ditemukan file `cyberpunk77.exe`
+3. Jalankan program dengan double click pada file `cyberpunk77.exe`, akan langsung terbuka tampilan awal GUI program
+4. Pada program, pilih salah satu input dengan klik tombol `txt file` atau `automatic`
+5. Jika memilih input `txt file`, klik tombol `browse` untuk mengupload file, lalu klik tombol `solve` untuk menghasilkan solusi
+6. Jika memilih input `automatic`, lengkapi bagian kosong seperti contoh berikut:
     ```
-    python -m venv myenv
+    TOKEN AMOUNT: 5
+    TOKEN: BD 1C 7A 55 E9
+    BUFFER SIZE: 7
+    MATRIX SIZE: 6 6
+    SEQUENCE AMT: 3
+    MAX SEQUENCE: 4
     ```
-3. Aktivasi virtual environment dengan
-    - Windows:
-        ```
-        myenv\Scripts\activate
-        ```
-    - macOS & Linux:
-        ```
-        source myenv/bin/activate
-        ```
-4. Install dahulu requierements dengan melakukan 
-    ```
-    pip install -r requirements.txt
-    ```
-5. Pindah ke direktori *website* dengan `cd src/website`
-6. Install requierements website dengan command <code>npm install</code>
-7. Jalankan website dengan <code>npm start</code>
-8. Buka terminal baru, aktivasi lagi virtual environment, pindah ke direktori *backend* dengan `cd src/backend`
-9. Jalankan file python dengan <code>python app.py</code>
-10. Buka <code>http://localhost:3000</code> pada peramban dan website sudah dapat digunakan
+    lalu klik tombol `solve` untuk menghasilkan solusi
+7. Jika ingin menyimpan hasil ke file txt, klik tombol `save` lalu pilih direktori penyimpan dan nama filenya
+8. Close program untuk mengakhiri
