@@ -19,8 +19,8 @@ Pada program ini, dilakukan pencarian solusi atas persoalan tersebut menggunakan
 
 
 ## Screenshots <a href="screenshots"></a>
-![Example screenshot](./readme_img/image11.png)
-![Example screenshot](./readme_img/image28.png)
+![Example screenshot](./readme_img/1.png)
+![Example screenshot](./readme_img/2.png)
 ![Example screenshot](./readme_img/image8.png)
 
 ## Dependencies <a href="dependencies"></a>
