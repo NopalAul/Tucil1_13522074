@@ -5,7 +5,7 @@ import random
 from time import process_time
 
 # ############  COLOR : #1C2A41
-asset_path = os.path.abspath('src/GUI/assets')
+asset_path = os.path.abspath('src/assets')
 
 ################### ALGORITHM FUNCTION ###################
 
@@ -15,7 +15,6 @@ def draw_matrix_with_lines(matrix, coordinates, page):
     canvas_widht = len(matrix[0]) * cell_width
     canvas_height = len(matrix) * cell_height
     canvas = Canvas(page, width=canvas_widht, height=canvas_height, bg='#E5FDFF', border=0)
-    # canvas = Canvas(page3, width=300, height=300)
     canvas.pack(expand=True, pady=(0, 60), padx=(280, 0))
 
     # Gambar matrix
@@ -416,7 +415,7 @@ time_img = PhotoImage(file=asset_path+'/time.png')
 Label(page2, image=time_img, bg='#0B0F28').place(x=826, y=590)
 time_text = Label(page2, text='TIME :', font=('Microsoft YaHei UI',11), bg='#95EFFA', fg='#0B0F28').place(x=860, y=600)
 time_result = Label(page2, text="", font=('Microsoft YaHei UI',12), bg='#1C2A41', fg='#95EFFA')
-time_result.place(x=840, y=635)
+time_result.place(x=842, y=635)
 
 
 
