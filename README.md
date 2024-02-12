@@ -14,14 +14,11 @@
 
 Pada program ini, dilakukan pencarian solusi atas persoalan tersebut menggunakan pendekatan algoritma _brute force_   yang akan mencoba semua kemungkinan solusi yang ada, dan memilih solusi yang paling optimal. Solusi beserta urutan sekuensnya akan ditampilkan pada GUI yang ada di program ini.
 
-<!-- > Live demo [_here_](https://www.example.com).If you have the project hosted somewhere, include the link here. -->
-<!-- [nonton ini dulu ga sih](https://youtu.be/kTaZdwUF400?si=oeym0EgkqAKwQucP) -->
-
 
 ## Screenshots <a href="screenshots"></a>
-![Example screenshot](./readme_img/1.png)
+![Example screenshot](./readme_img/txt.gif)
+![Example screenshot](./readme_img/auto.gif)
 ![Example screenshot](./readme_img/2.png)
-![Example screenshot](./readme_img/image8.png)
 
 ## Dependencies <a href="dependencies"></a>
 - Python 3.x
