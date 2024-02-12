@@ -3,24 +3,22 @@ from tkinter import filedialog
 import os
 import random
 from time import process_time
-# import sys
-# sys.path.append('../')
-# from solver import solve
+
 # ############  COLOR : #1C2A41
 asset_path = os.path.abspath('src/GUI/assets')
 
 ################### ALGORITHM FUNCTION ###################
 
-
 def draw_matrix_with_lines(matrix, coordinates, page):
-    canvas = Canvas(page, width=556, height=390, bg='#E5FDFF', border=0)
-    # canvas = Canvas(page3, width=300, height=300)
-    canvas.place(x=360, y=170)
-
     cell_width = 50
     cell_height = 50
+    canvas_widht = len(matrix[0]) * cell_width
+    canvas_height = len(matrix) * cell_height
+    canvas = Canvas(page, width=canvas_widht, height=canvas_height, bg='#E5FDFF', border=0)
+    # canvas = Canvas(page3, width=300, height=300)
+    canvas.pack(expand=True, pady=(0, 60), padx=(280, 0))
 
-    # Draw matrix
+    # Gambar matrix
     for i in range(len(matrix)):
         for j in range(len(matrix[0])):
             x0 = j * cell_width
@@ -38,7 +36,7 @@ def draw_matrix_with_lines(matrix, coordinates, page):
                 canvas.create_rectangle(x0, y0, x1, y1, outline="black", fill="#1C2A41")
             canvas.create_text((x0 + x1) // 2, (y0 + y1) // 2, text=matrix[i][j], fill="#95EFFA")
 
-        # Draw lines
+        # Gambar garis lintasan
         for i in range(len(coordinates) - 1):
             x0 = coordinates[i][1] * cell_width + cell_width // 2
             y0 = coordinates[i][0] * cell_height + cell_height // 2
@@ -46,7 +44,7 @@ def draw_matrix_with_lines(matrix, coordinates, page):
             y1 = coordinates[i+1][0] * cell_height + cell_height // 2
             canvas.create_line(x0, y0, x1, y1, fill="#F0A0F9", width=2)
 
-
+# INPUT FILE
 def open_file_dialog():
     global matrix_arr
     global buffer_size
@@ -54,7 +52,7 @@ def open_file_dialog():
     global reward_list
     file_path = filedialog.askopenfilename()
     if file_path:
-        file_name = os.path.basename(file_path) # Extract file name
+        file_name = os.path.basename(file_path)
         selected_file_label.config(text=file_name)
         with open(file_path, 'r') as file:
             buffer_size = int(file.readline().strip())
@@ -74,25 +72,10 @@ def open_file_dialog():
                 sequence = file.readline().strip().split()
                 reward_list.append(int(file.readline().strip()))
                 sequence_list.append(sequence)
-        # # test
-        # print(f'sequences: {sequence}')
-        # print(f'sequences_list: {sequence_list}')
-        # print(f'reward_list: {reward_list}')
-        # print(f'seq 1 tokens: {sequence_list[0]}')
-        # print(f'seq 1 tokens 1: {sequence_list[0][0]}')
-        # print(f'seq 1 reward: {reward_list[0]}')
-        # print(f'n_sequences: {n_sequences}')
-        # print(f'matrix: {matrix_arr}') 
-        # print("Matrix:")
-        # print_matrix
-        # print(f'first row: {matrix_arr[0]}')    
-        # print(f'first row first collumn: {matrix_arr[0][0]}')   
-        # print(f'buffer_size: {buffer_size}')
-        # print(f'matrix_size: {matrix_size}')
-        # print(f'matrix_width: {matrix_width}')
-        # print(f'matrix_height: {matrix_height}')
+
     return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
 
+# INPUT KEYBOARD 
 def open_keyboard_input():
     global matrix_arr
     global buffer_size
@@ -117,6 +100,7 @@ def open_keyboard_input():
             random_token = random.choice(token_arr) 
             matrix_arr[i][j] = random_token
 
+    # Sequence & reward generator
     sequence_list = []
     reward_list = []
     for i in range(n_sequences):
@@ -127,43 +111,18 @@ def open_keyboard_input():
         sequence_list.append(sequence)
         reward_list.append(random.randint(10, 100))
 
-    # test
-    print(f'sequences: {sequence}')
-    print(f'sequences_list: {sequence_list}')
-    print(f'reward_list: {reward_list}')
-    print(f'seq 1 tokens: {sequence_list[0]}')
-    print(f'seq 1 tokens 1: {sequence_list[0][0]}')
-    print(f'seq 1 reward: {reward_list[0]}')
-    print(f'n_sequences: {n_sequences}')
-    print(f'matrix: {matrix_arr}') 
-    print("Matrix:")
-    print_matrix(matrix_arr)
-    print(f'first row: {matrix_arr[0]}')    
-    print(f'first row first collumn: {matrix_arr[0][0]}')   
-    print(f'buffer_size: {buffer_size}')
-    print(f'matrix_size: {matrix_size}')
-    print(f'matrix_width: {matrix_width}')
-    print(f'matrix_height: {matrix_height}')
-
     return matrix_arr, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size, sequence_list, reward_list
-
-def print_matrix(matrix_arr):
-    for i in range(len(matrix_arr)):
-        for j in range(len(matrix_arr[0])):
-            print(f'{matrix_arr[i][j]}', end=' ')
-        print()
 
 def solve_keyboard():
     open_keyboard_input()
     solve()
 
+# BRUTE FORCE ALGORITHM
 def solve():
-
-    # BRUTE FORCE ALGORITHM
-    # Inisialisasi variabel untuk menyimpan koordinat yang sudah digunakan/dikunjungi
+    # Inisialisasi penyimpan koordinat yang sudah digunakan/dikunjungi 
     used_coordinates = set()
 
-    # Fungsi untuk mengecek apakah suatu koordinat valid untuk digunakan (gerakan enumerasi kombinasi adalah valid)
+    # Fungsi untuk mengecek gerakan enumerasi kombinasi adalah valid
     def is_valid_move(row, col, direction):
         if direction == 'horizontal':
             return col < len(matrix_arr[0]) and (row, col) not in used_coordinates
@@ -171,7 +130,6 @@ def solve():
             return row < len(matrix_arr) and (row, col) not in used_coordinates
 
     # Fungsi untuk mengenumerasi kombinasi dari matrix token
-    # hasil enumerasi berupa kemungkinan sequence dan koordinatnya
     sequences_result = []
     coordinate_result = []
     def enumerate_combinations(row, col, direction, buffer_size, combination, combination_coord):
@@ -181,25 +139,27 @@ def solve():
             return sequences_result.append(combination)
 
         # Enumerasi tiap sel matrix secara berarah sesuai aturan, horizontal lalu vertikal
-        if direction == 'horizontal':       # arah enumerasi horizontal
+        if direction == 'horizontal':    
             for i in range(len(matrix_arr[0])):
                 if is_valid_move(row, i, direction):
                     used_coordinates.add((row, i))
-                    enumerate_combinations(row, i, 'vertical', buffer_size - 1, combination + [matrix_arr[row][i]], combination_coord + [(row, i)])     # setiap selesai menggunakan 1 koordinat, ubah arah enumerasi, kurangi buffer size, tambahkan kombinasi dan koordinatnya
+                    enumerate_combinations(row, i, 'vertical', buffer_size - 1, combination + [matrix_arr[row][i]], combination_coord + [(row, i)])
                     used_coordinates.remove((row, i))
-        elif direction == 'vertical':       # arah enumerasi vertikal
+        elif direction == 'vertical': 
             for i in range(len(matrix_arr)):
                 if is_valid_move(i, col, direction):
                     used_coordinates.add((i, col))
-                    enumerate_combinations(i, col, 'horizontal', buffer_size - 1, combination + [matrix_arr[i][col]], combination_coord + [(i, col)])   # setiap selesai menggunakan 1 koordinat, ubah arah enumerasi, kurangi buffer size, tambahkan kombinasi dan koordinatnya 
+                    enumerate_combinations(i, col, 'horizontal', buffer_size - 1, combination + [matrix_arr[i][col]], combination_coord + [(i, col)]) 
                     used_coordinates.remove((i, col))
 
+    # Timer proses
     start_time = process_time()
-    # Melakukan enumerasi kombinasi dari setiap sel dimulai dari row pertama
+
+    # Melakukan enumerasi kombinasi dari setiap sel dimulai dari row pertama sel pertama
     for i in range(len(matrix_arr[0])):
-        used_coordinates.clear()        # membersihkan set koordinat yang sudah digunakan
-        used_coordinates.add((0, i))    # menandai koordinat awal sebagai koordinat yang sudah digunakan
-        enumerate_combinations(0, i, 'vertical', buffer_size - 1, [matrix_arr[0][i]], [(0, i)])   # memulai enumerasi kombinasi dari koordinat di row pertama
+        used_coordinates.clear()       
+        used_coordinates.add((0, i))   
+        enumerate_combinations(0, i, 'vertical', buffer_size - 1, [matrix_arr[0][i]], [(0, i)]) 
 
     # Update hasil koordinat (dari 0-based ke 1-based)
     coordinate_result_update = []
@@ -225,14 +185,12 @@ def solve():
                 array_list = sequences_list[index]
                 reward = reward_list[index]
 
-                # ubah array menjadi string agar dapat dicek apakah array_list ada di array_result
                 array_result_str = ' '.join(array_result)
                 array_list_str = ' '.join(array_list)
                 if array_list_str in array_result_str:
                     print()
-                    sum_reward += reward        # jika ada, jumlahkan rewardnya
+                    sum_reward += reward      
 
-            # masukkan jumlah reward setiap sequence ke dalam list (reward untuk setiap kombinasi sequence)
             reward_candidate.append(sum_reward) 
         return reward_candidate
 
@@ -273,7 +231,7 @@ def solve():
             print(f'{coord}')
         print(f'\nWaktu eksekusi: {timer} ms')
     
-    
+    # Display GUI
     draw_matrix_with_lines(matrix_arr, coordinate_result[index_reward], page2)
     max_reward_result.config(text=max_reward)
     sequence_result.config(text=sequences_result_final)
@@ -305,6 +263,7 @@ def solve():
     solve_label3.destroy()
     solve_btn3.destroy()
 
+# SAVE FILE MECHANISM
 def save_output():
     file_name = prompt.get()
     if file_name:
@@ -319,9 +278,11 @@ def save_output():
         print(f'\nSolusi berhasil disimpan ke dalam file {file_name}')
         save_window.destroy()
 
+# CANCEL SAVE
 def cancel_save():
     save_window.destroy()
 
+# SAVE FILE GUI
 def save_file():
     global save_window
     save_window = Toplevel(page2)
@@ -352,11 +313,8 @@ def save_file():
     cancel_btn = Button(save_window, text='C A N C E L', font=('Microsoft YaHei UI',10), bg='#250029', fg='#F0A0F9', relief=FLAT, command=cancel_save).place(x=229, y=193)
 
 
-
-
 ################### TKINTER GUI ###################
 window = Tk()
-
 widht = 990
 height = 704
 x = (window.winfo_screenwidth()//2) - (widht//2) 
@@ -374,13 +332,13 @@ page3 = Frame(window)
 for frame in (page1, page2, page3):
     frame.grid(row=0, column=0, sticky='nsew')
 
-# buat munculin page/frame lain
+# Munculkan page lain
 def show_frame(frame):
     frame.tkraise()
 
 show_frame(page1)
 
-################### PAGE 1: HOME ###################
+############## PAGE 1: HOME ##############
 # Background
 page1.configure(bg='#0B0F28')
 
@@ -404,7 +362,7 @@ auto_btn_img = PhotoImage(file=asset_path+'/autobtn.png')
 auto_btn = Button(page1, image=auto_btn_img, bg='#0B0F28', relief=FLAT, command=lambda: show_frame(page3)).place(relx=0.5, rely=0.7, y=6, anchor=CENTER)
 
 
-################### PAGE 2: TXT INPUT ###################
+############## PAGE 2: TXT INPUT ##############
 # Background
 page2.configure(bg='#0B0F28')
 
@@ -463,7 +421,7 @@ time_result.place(x=840, y=635)
 
 
 
-################### PAGE 3: AUTO INPUT ###################
+############## PAGE 3: AUTO INPUT ##############
 # Background
 page3.configure(bg='#0B0F28')
 
