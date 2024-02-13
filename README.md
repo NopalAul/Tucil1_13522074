@@ -46,4 +46,4 @@ Pada program ini, dilakukan pencarian solusi atas persoalan tersebut menggunakan
     ```
     lalu klik tombol `solve` untuk menghasilkan solusi
 7. Jika ingin menyimpan hasil ke file txt, klik tombol `save` lalu pilih direktori penyimpan dan nama filenya
-8. Close program untuk mengakhiri
+8. Close program untuk mengakhiri atau mengulang pencarian solusi
