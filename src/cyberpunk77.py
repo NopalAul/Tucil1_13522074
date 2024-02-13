@@ -16,6 +16,10 @@ import sys
 ################### ALGORITHM FUNCTION ###################
 # BRUTE FORCE ALGORITHM
 def solve():
+    # Error
+    if matrix_arr == []:
+        messagebox.showerror("Error", "Please complete the input")
+        return
     # Inisialisasi penyimpan koordinat yang sudah digunakan/dikunjungi 
     used_coordinates = set()
 
@@ -161,6 +165,24 @@ def solve():
     solve_label3.destroy()
     solve_btn3.destroy()
 
+    browse_label.destroy()
+    browse_btn.destroy()
+
+def starting():
+    global matrix_arr
+    global buffer_size
+    global sequence_list
+    global reward_list
+    global n_token, token, matrix_size, n_sequences, max_sequence_size
+    matrix_arr = []
+    buffer_size = 0
+    sequence_list = []
+    reward_list = []
+    n_token = 0 
+    token = '' 
+    matrix_size = '' 
+    n_sequences = 0 
+    max_sequence_size = 0
 
 # ASSETS PATH
 def resource_path(relative_path):
@@ -231,7 +253,7 @@ def open_file_dialog():
                 reward_list.append(int(file.readline().strip()))
                 sequence_list.append(sequence)
 
-    return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
+    # return matrix_arr, matrix_width, matrix_height, buffer_size, matrix_size, n_sequences, sequence_list, reward_list
 
 # INPUT KEYBOARD 
 def open_keyboard_input():
@@ -239,6 +261,18 @@ def open_keyboard_input():
     global buffer_size
     global sequence_list
     global reward_list
+    global n_token, token, matrix_size, n_sequences, max_sequence_size
+
+    
+    n_token = (token_amount_input.get())
+    token = (token_input.get())
+    buffer_size = (buffer_size_input.get())
+    matrix_size = (matrix_size_input.get())
+    n_sequences = (sequence_amount_input.get())
+    max_sequence_size = (max_sequence_input.get())
+
+    if n_token == '' or token == '' or buffer_size == '' or matrix_size == '' or n_sequences == '' or max_sequence_size == '':
+        return None
 
     n_token = int(token_amount_input.get())
     token = str(token_input.get())
@@ -272,7 +306,9 @@ def open_keyboard_input():
     return matrix_arr, token_arr, matrix_width, matrix_height, n_token, token, buffer_size, matrix_size, n_sequences, max_sequence_size, sequence_list, reward_list
 
 def solve_keyboard():
-    open_keyboard_input()
+    if open_keyboard_input() == None:
+        messagebox.showerror("Error", "Please complete the input")
+        return
     solve()
 
 
@@ -316,7 +352,7 @@ def show_frame(frame):
     frame.tkraise()
 
 show_frame(page1)
-
+starting()
 
 ############## PAGE 1: HOME ##############
 # Background
@@ -364,8 +400,10 @@ Label(page2, image=img_title_page2, bg='#0B0F28').pack(pady=(61, 0))
 # Browse Button
 browse_path = resource_path("assets/browse.png")
 browse_btn_img = PhotoImage(file=browse_path)
-Label(page2, image=browse_btn_img, bg='#0B0F28').place(x=64.8, y=146+110)
-browse_btn = Button(page2, text='B R O W S E', font=('Microsoft YaHei UI',13), bg='#95EFFA', fg='#0B0F28', relief=FLAT, command=open_file_dialog).place(x=119, y=174+110)
+browse_label = Label(page2, image=browse_btn_img, bg='#0B0F28')
+browse_label.place(x=64.8, y=146+110)
+browse_btn = Button(page2, text='B R O W S E', font=('Microsoft YaHei UI',13), bg='#95EFFA', fg='#0B0F28', relief=FLAT, command=open_file_dialog)
+browse_btn.place(x=119, y=174+110)
 
 # Uploaded File
 upload_path = resource_path("assets/uploaded.png")
