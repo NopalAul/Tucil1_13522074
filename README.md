@@ -34,7 +34,20 @@ Pada program ini, dilakukan pencarian solusi atas persoalan tersebut menggunakan
     ```
 3. Jalankan program dengan double click pada file `cyberpunk77.exe`, akan langsung terbuka tampilan awal GUI program
 4. Pada program, pilih salah satu input dengan klik tombol `txt file` atau `automatic`
-5. Jika memilih input `txt file`, klik tombol `browse` untuk mengupload file, lalu klik tombol `solve` untuk menghasilkan solusi
+5. Jika memilih input `txt file`, klik tombol `browse` untuk mengupload file, lalu klik tombol `solve` untuk menghasilkan solusi. Format untuk file txt adalah sebagai berikut:
+    ```
+    buffer_size                     
+    matrix_widthmatrix_height
+    matrix
+    number_of_sequences
+    sequences_1
+    sequences_1_reward
+    sequences_2
+    sequences_2_reward
+    ...
+    sequences_n
+    sequences_n_reward
+    ```
 6. Jika memilih input `automatic`, lengkapi bagian kosong seperti contoh berikut:
     ```
     TOKEN AMOUNT: 5
